@@ -10,10 +10,10 @@ namespace _208_Tre
         {
             public Node root;
             /** Initialize your data structure here. */
-            public Trie()
-            {
-                root = new Node();
-            }
+            public Trie() => root = new Node();
+            //{
+            //    root = new Node();
+            //}
 
             /** Inserts a word into the trie. */
             public void Insert(string word)
@@ -21,10 +21,10 @@ namespace _208_Tre
                 Node indexPointer = root;
                 foreach(char c in word)
                 {
-                    if (!indexPointer.children.ContainsKey((c))){
-                        indexPointer.children[(c)] = new Node();
+                    if (indexPointer.children[c-'a'] == null){
+                        indexPointer.children[c - 'a'] = new Node();
                     }
-                    indexPointer = indexPointer.children[(c)];
+                    indexPointer = indexPointer.children[c - 'a'];
 
                 }
                 indexPointer.is_word = true;
@@ -36,11 +36,11 @@ namespace _208_Tre
                 Node indexPointer = root;
                 foreach (char c in word)
                 {
-                    if (!indexPointer.children.ContainsKey((c)))
+                    if (indexPointer.children[c - 'a'] == null)
                     {
                         return false;
                     }
-                    indexPointer = indexPointer.children[(c)];
+                    indexPointer = indexPointer.children[c - 'a'];
 
                 }
                 return indexPointer.is_word;
@@ -53,11 +53,11 @@ namespace _208_Tre
                 Node indexPointer = root;
                 foreach (char c in prefix)
                 {
-                    if (!indexPointer.children.ContainsKey((c)))
+                    if (indexPointer.children[c - 'a'] == null)
                     {
                         return false;
                     }
-                    indexPointer = indexPointer.children[(c)];
+                    indexPointer = indexPointer.children[c - 'a'];
 
                 }
                 return true;
@@ -67,9 +67,9 @@ namespace _208_Tre
         public class Node
         {
             public bool is_word;
-            public Dictionary<char, Node> children;
+            public Node[] children;
 
-            public Node() => (is_word, children) = (false, new Dictionary<char, Node>());
+            public Node() => (is_word, children) = (false, new Node[26]);
             //public Node()
             //{
             //    is_word = false;
@@ -87,7 +87,7 @@ namespace _208_Tre
             Trie trie = new Trie();
             trie.Insert("apple");
             var result = trie.Search("applezz");   // return True
-            Console.WriteLine(result);
+            Console.WriteLine(result); // return False
             trie.Search("app");     // return False
             trie.StartsWith("app"); // return True
             trie.Insert("app");
