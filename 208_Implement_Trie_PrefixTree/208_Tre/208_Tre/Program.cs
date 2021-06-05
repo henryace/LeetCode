@@ -8,7 +8,7 @@ namespace _208_Tre
 
         public class Trie
         {
-            public Node root { get; set; }
+            public Node root;
             /** Initialize your data structure here. */
             public Trie()
             {
@@ -21,10 +21,10 @@ namespace _208_Tre
                 Node indexPointer = root;
                 foreach(char c in word)
                 {
-                    if (!indexPointer.children.ContainsKey((c).ToString())){
-                        indexPointer.children[(c).ToString()] = new Node();
+                    if (!indexPointer.children.ContainsKey((c))){
+                        indexPointer.children[(c)] = new Node();
                     }
-                    indexPointer = indexPointer.children[(c).ToString()];
+                    indexPointer = indexPointer.children[(c)];
 
                 }
                 indexPointer.is_word = true;
@@ -36,11 +36,11 @@ namespace _208_Tre
                 Node indexPointer = root;
                 foreach (char c in word)
                 {
-                    if (!indexPointer.children.ContainsKey((c).ToString()))
+                    if (!indexPointer.children.ContainsKey((c)))
                     {
                         return false;
                     }
-                    indexPointer = indexPointer.children[(c).ToString()];
+                    indexPointer = indexPointer.children[(c)];
 
                 }
                 return indexPointer.is_word;
@@ -53,11 +53,11 @@ namespace _208_Tre
                 Node indexPointer = root;
                 foreach (char c in prefix)
                 {
-                    if (!indexPointer.children.ContainsKey((c).ToString()))
+                    if (!indexPointer.children.ContainsKey((c)))
                     {
                         return false;
                     }
-                    indexPointer = indexPointer.children[(c).ToString()];
+                    indexPointer = indexPointer.children[(c)];
 
                 }
                 return true;
@@ -66,14 +66,16 @@ namespace _208_Tre
 
         public class Node
         {
-            public bool is_word { get; set; }               
-            public Dictionary<string, Node> children { get; set; }
-            public Node()
-            {
-                is_word = false;
-                children = new Dictionary<string, Node>();
+            public bool is_word;
+            public Dictionary<char, Node> children;
 
-            }
+            public Node() => (is_word, children) = (false, new Dictionary<char, Node>());
+            //public Node()
+            //{
+            //    is_word = false;
+            //    children = new Dictionary<char, Node>();
+
+            //}
         }
 
 
@@ -84,7 +86,8 @@ namespace _208_Tre
         {
             Trie trie = new Trie();
             trie.Insert("apple");
-            trie.Search("apple");   // return True
+            var result = trie.Search("applezz");   // return True
+            Console.WriteLine(result);
             trie.Search("app");     // return False
             trie.StartsWith("app"); // return True
             trie.Insert("app");
